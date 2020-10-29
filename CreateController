@@ -1,0 +1,2 @@
+//Прописываем эту команду в консоли, в корневой директории проэкта и создаем контроллер
+php bin/console make:controller PostsController
