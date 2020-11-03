@@ -1,1 +1,2 @@
-
+#Прописываем команду в консоли из папки где нужно создать проект.
+composer create-project symfony/website-skeleton my_project_name
