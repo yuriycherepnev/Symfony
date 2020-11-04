@@ -1,0 +1,16 @@
+#Прописываем этот код в файле routes.yaml чтоб задать главную страницу проекта
+
+homepage:
+    path: /
+    controller: App\Controller\NameController::index
+    defaults:
+        path: /index
+        permanent: true
+
+index:
+    path: /index
+    controller: App\Controller\NameController::index
+
+second:
+    path: /second
+    controller: App\Controller\SecondController::second
