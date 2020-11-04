@@ -1,0 +1,2 @@
+#Код для создания сущности
+php bin/console make:entity
