@@ -1,0 +1,5 @@
+#Команда в консоли для созданмя миграции:
+php bin/console doctrine:migrations:diff
+
+#Команда для выполнения миграции
+php bin/console doctrine:migrations:migrate
