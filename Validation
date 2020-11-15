@@ -1,0 +1,2 @@
+#Установка валидатора
+composer require symfony/validator doctrine/annotations
