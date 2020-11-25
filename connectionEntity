@@ -45,3 +45,30 @@ public function showPage(Page $page, EntityManagerInterface $em): Response //в�
 {% endfor %}
 
 #Для связи ManyToMany создается отдельная таблица, чтоб организовать связь. В которой содержится информация какое свойство к каком у привязано в каждой таблице.
+#СВязь ManyToMany
+#Контроллер:
+
+/**
+     * @Route("/add-tagg-to-page/{page}/{tag}", name="addTagToPage")
+     * @param Page $page
+     * @param Tag $tag
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
+    public function addTagToPage(Page $page, Tag $tag, EntityManagerInterface $em): Response //контроллер привязки ManyToMany
+    {
+
+        $page->addTag($tag);
+        $em->flush();
+
+        return new Response('<p>Тег добавлен к странице.</p>');
+    }
+    
+#Twig:
+{% if not page.tags.isEmpty %}
+    <h3>Вывод тегов привязанных к странице:</h3>
+    {% for tag in page.tags %}
+        <p>{{ tag.name }}</p>
+    {% endfor %}
+{% endif %}
+
