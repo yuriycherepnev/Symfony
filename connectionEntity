@@ -1,1 +1,45 @@
+#В консоли необходимо создать новую сущность, или добавить к существующей поле с типом: relation 
+#Далее нужно указать класс к которому будет привязка
+#Виды связей: ManyToOne / OneToMany / ManyToMany / OneToOne
+#Далее надо выбрать нужна ли обратная связь из сущности к которой мы сделали привязку.
+#Чтобы вывести сущность и все привязанные к ней таблицы, можно обратиться к методу который создается в сущности для вывода привязанных таблиц:
 
+/**
+* @return Collection|Content[]
+*/
+public function getContents(): Collection
+{
+  return $this->Contents;
+}
+
+#Так выглядит запрос в контроллере:
+
+/**
+* @Route("/showPage/{id}", name="showPage")
+*/
+public function showPage(Page $page, EntityManagerInterface $em): Response //вывод информации из бд
+{
+  //$comments = $em->getRepository(Content::class)->findBy(['page' => $page]); //получение комментариев через репозиторий
+  $comments = $page->getContents(); //получение привязанных комментариев через гет
+  return $this->render('page.html.twig', ['page'=>$page, 'comments'=>$comments]);//передача обьектов в шаблонизатор
+}
+
+#Так выглядит вывод в Twig:
+
+{% if not page.contents.isEmpty %} //проверка на пустоту. Если нет привязанных к сущности комментариев, то мы ничего не выводим
+    <p>page.contents[0].comment - эта конструкция используется для получения определенного комментария</p>
+    <h2>{{ page.contents[0].comment }}</h2>
+{% endif %}
+
+{% if not page.contents.isEmpty %}
+    <p>page.getNoneDeletedContents - запрос комментариев у которых поле is_deleted - false</p>
+{% for comment in page.getNoneDeletedContents %}
+  <p>{{ comment.comment }}</p>
+{% endfor %}
+{% endif %}
+
+<h3>Вывод комментариев полученных через Геттер /* $comments = $page->getContents(); */</h3>
+
+{% for comment in comments %}
+    <p>{{ comment.id }} / {{ comment.comment }}</p>
+{% endfor %}
