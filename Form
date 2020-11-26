@@ -1,1 +1,43 @@
+#Чтобы начать работать с формами, в проект нужно сначала добавить компонент symfony form, для этого в терминале прописываем:
 
+composer require symfony/form
+
+#Далее в директории Src создаем папку Form в которой будут храниться PHP классы для создания форм.
+#В папке Form создаем PHP класс с таким содержимым:
+
+namespace App\Form;
+ 
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+ 
+class TestFormType extends AbstractType {
+ 
+    public function buildForm( FormBuilderInterface $builder, array $options ) {
+        $builder
+        ->add('title')
+        ->add('content') //поля формы
+    }
+}
+
+#Создаем роут чтоб передать данные в шаблон Twig:
+
+class MainController extends AbstractController
+{
+/**
+* @Route("/main", name="main")
+*/
+  public function index()
+  {
+      $form = $this->createForm(TestFormType::class);
+      return $this->render('main/index.html.twig', [
+          'form' => $form->createView()
+      ]); //внутрь Twig шаблона передается не сама переменная $form, а метод createView, который подготовит объект с формой в формат понятный для шаблонизатора Twig. 
+  }
+}
+
+#Далее в шаблоне Twig отображаем метод:
+
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="button">Отправить</button>
+{{ form_end(form) }}
