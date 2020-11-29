@@ -3,3 +3,11 @@ php bin/console debug:container
 
 #Посмотреть список сервисов которые мы можем использовать:
 php bin/console debug:autowiring
+
+#Сервису можно передать аргументы через файл services.yaml:
+converter:
+  autowire: false
+  class: App/Service/NameService
+  arguments: 
+    $logger: 'monolog.logger'
+    $userEmail: 'test@yandex.ru'
